@@ -1,0 +1,21 @@
+<div class="md-dialog-container" id="editDialog">
+  <md-dialog id="edit-dialog" layout-padding="">
+    <md-dialog-content>
+      <form ng-submit="submitDialog()">
+        <h2>{{dialog.title}}</h2>
+        <md-input-container>
+          <label>Name</label>
+          <input name="favoriteColor" ng-model="dialog.robin.name" required>
+        </md-input-container>
+        <br/>
+        <md-input-container>
+          <label>Description</label>
+          <input name="favoriteColor" ng-model="dialog.robin.desc" required>
+        </md-input-container>
+        <br/>
+        <md-button type="submit" class="md-accent md-raised">Submit</md-button>
+        <md-button ng-click="hideDialog()" class="md-raised">Close Alert</md-button>
+      </form>
+    </md-dialog-content>
+  </md-dialog>
+</div>
