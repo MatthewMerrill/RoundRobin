@@ -13,6 +13,14 @@
           <input name="favoriteColor" ng-model="dialog.robin.desc" required>
         </md-input-container>
         <br/>
+
+        <md-input-container>
+          <label>Players (One per line)</label>
+          <textarea name="players" ng-model="dialog.robin.playertext" rows="4" md-no-autogrow>
+          </textarea>
+        </md-input-container>
+        <br/>
+
         <md-button type="submit" class="md-accent md-raised">Submit</md-button>
         <md-button ng-click="hideDialog()" class="md-raised">Close Alert</md-button>
       </form>

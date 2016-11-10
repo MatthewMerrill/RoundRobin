@@ -3,26 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <title>RoundRobin</title>
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
-
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
     <link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link type="text/css" rel="stylesheet" href="app.css" />
   </head>
 
-  <body ng-app="BlankApp" ng-controller="RRCtrl" ng-cloak>
+  <body ng-app="RRApp" ng-controller="RRCtrl" ng-cloak>
 
     <div layout="column" layout-fill>
       <md-toolbar>
         <div ng-if="!currentUser" class="md-toolbar-tools">
           <span>RoundRobin</span>
           <span flex></span>
-          <md-button id="loginButton" class="md-accent md-raised" ng-click="showLogin($event)">
-            Login
+          <md-button id="loginButton" class="md-accent md-raised" ng-click="login($event)">
+            Login with Google
           </md-button>
         </div>
 
@@ -32,6 +29,9 @@
           <md-button id="loginButton" class="md-raised" ng-click="showCreate($event)">
             New
           </md-button>
+          <md-button id="logoutButton" class="md-accent md-raised" ng-click="logout()">
+            Logout
+          </md-button>
           <div class="avatar">
             <img ng-src="{{currentUser.photoURL}}">
           </div>
@@ -39,24 +39,28 @@
       </md-toolbar>
 
       <md-content>
-        <div ng-if="robins">
+        <div ng-show="currentUser">
+          <md-input-container>
+          <strong>Robins for: </strong>
+          <md-select ng-model="curgroup">
+            <md-option value="user" selected>User</md-option>
+            <md-option value="{{key}}" ng-repeat="(key,group) in groups">{{group.name}}</md-option>
+          </md-select>
+          </md-input-container>
+        </div>
+
+        <div ng-show="groups[curgroup] && groups[curgroup].robins">
           <md-tabs>
-            <md-tab ng-repeat="robin in robins">
-              <md-tab-label>
-                {{robin.name}}
-              </md-tab-label>
+            <md-tab ng-repeat="robinid in group.robins">
+              <md-tab-label>{{robin.name}}</md-tab-label>
               <md-tab-body>
-                <md-input-container>
-                  <label>Name</label>
-                  <input name="favoriteColor" ng-model="robin.name" required>
-                </md-input-container>
-                {{robin.desc}}
+                <ng-include src="'robin.html'">
               </md-tab-body>
             </md-tab>
           </md-tabs>
         </div>
 
-        <div ng-if=!robins>
+        <div ng-hide="groups[curgroup] && groups[curgroup].robins">
           <h2>Quickstart Guide</h2>
           <p>Login and click "New" to begin.</p>
         </div>
@@ -68,12 +72,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-
-    <!-- AngularFire -->
-<script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
 
     <!-- Angular Material Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+    <script src="robindata.js"></script>
+    <script src="rrcontroller.js"></script>
+    <script src="shuffle.js"></script>
 
     <script src="app.js"></script>
 
